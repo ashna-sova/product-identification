@@ -1,0 +1,19 @@
+{
+  "name": "product-identification",
+  "version": "1.0.0",
+  "description": "Recommend products to customer based on nutrients present using image extraction",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ashna-sova/product-identification.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ashna-sova/product-identification/issues"
+  },
+  "homepage": "https://github.com/ashna-sova/product-identification#readme"
+}
