@@ -3,7 +3,7 @@ const express = require('express');
 const formidable = require('formidable');
 const fs = require("fs");
 const textExtractionController = require('./controllers/text-extraction');
-const 
+const classifyProductHelper = require('./helpers/classify-product');
 
 // Init app
 const app = express();
@@ -37,11 +37,24 @@ app.post('/upload', (req, res) => {
               msg: 'Error encountered while extracting text!'
             });
           }
-          else{
-
+          else if(response.payload.length===0){
             res.render('index', {
-              result: response
+              msg: 'No relevant data found!'
             });
+          }
+          else{
+            const classifiedData = classifyProductHelper(response.payload);
+            console.log( classifiedData);
+            if(classifiedData.error){
+              res.render('index', {
+                result: classifiedData.msg
+              });
+            }
+            else{
+              res.render('index',{
+                result: classifiedData.payload.recommendationStatus
+              })
+            }
           }
         } 
         // res.render('index', {
