@@ -3,14 +3,15 @@ const productsThresholdMG = {
     protein: 2000,
     fibre: 3000,
     carbohydrate: 2000,
+    total_sugar: 1200,
     added_sugar: 1000,
     sugar: 200,
-    total_sugar: 1200,
     total_fat: 1000,
-    fat:1000,
     saturated_fat: 2100,
     trans_fat: 1500,
+    fat:1000,
     sodium: 1800,
+    cholesterol: 1000
 };
 
 const nutrients = Object.keys(productsThresholdMG);
