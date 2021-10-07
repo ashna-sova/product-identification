@@ -42,6 +42,9 @@ app.post('/upload', (req, res) => {
             });
           }
         } 
+        // res.render('index', {
+        //   msg: 'File Selected!'
+        // });
     });
 
 });
