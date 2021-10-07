@@ -3,6 +3,7 @@ const express = require('express');
 const formidable = require('formidable');
 const fs = require("fs");
 const textExtractionController = require('./controllers/text-extraction');
+const 
 
 // Init app
 const app = express();
@@ -37,6 +38,7 @@ app.post('/upload', (req, res) => {
             });
           }
           else{
+
             res.render('index', {
               result: response
             });
