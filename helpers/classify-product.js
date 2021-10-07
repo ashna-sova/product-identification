@@ -34,11 +34,7 @@ const classifyProductHelper = (extractedInfo) => {
                             .indexOf(nutrients[i])!== -1
                     ) {
                         let nutrient = nutrients[i];
-                        const unit =
-                            rowValues.length === 2
-                                ? key.match(regexToIdentifyUnit) ||
-                                val.match(regexToIdentifyUnit)
-                                : key.match(regexToIdentifyUnit);        
+                        const unit = key.match(regexToIdentifyUnit) || val.match(regexToIdentifyUnit);       
                         const nutrientUnit = unit!==null ? unit[0] : "g";
                         val = parseFloat(val.split(/([mk]?[g]{1})\b/g)[0].trim());
                         const nutrientValue = val + " " + nutrientUnit;
