@@ -25,7 +25,9 @@ const classifyProductHelper = (extractedInfo) => {
                 const regexToIdentifyUnit = /([mk]?[g]{1})\b/g;
                 const rowValues = Object.values(requiredTable[rowNo]);
                 const key = rowValues[0];
+                console.log(key)
                 let val = rowValues[1];
+                console.log(val)
                 for (let i = 0; i < nutrients.length; i++) {
                     if (
                         key

@@ -14,8 +14,7 @@ app.set('view engine', 'ejs');
 // Public Folder
 app.use(express.static('./public'));
 
-app.get('/', (req, res) => {
- 
+app.get('/', (req, res) => { 
   res.render('index')
 });
 
@@ -52,7 +51,8 @@ app.post('/upload', (req, res) => {
             }
             else{
               res.render('index',{
-                result: classifiedData.payload.recommendationStatus
+                nutrientMaps: classifiedData.payload.nutrientMaps,
+                recommendationStatus: classifiedData.payload.recommendationStatus
               })
             }
           }
