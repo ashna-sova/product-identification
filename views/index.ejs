@@ -1,38 +1,126 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
-  
-  <title>Node File Uploads</title>
-</head>
-<body>
-  <div class="container">
-    <h1>File Upload</h1>
-    <%= typeof msg != 'undefined' ? msg : '' %>
-    <form action="/upload" method="POST" enctype="multipart/form-data">
-      <div class="file-field input-field">
-        <div class="btn grey">
-          <span>File</span>
-          <input name="myImage" type="file">
-        </div>
-        <div class="file-path-wrapper">
-          <input class="file-path validate" type="text">
-        </div>
-      </div>
-      <button type="submit" class="btn">Submit</button>
-    </form>
-    <br>
-    <br>
-    <%= typeof result != 'undefined' ? result : '' %>
-  </div>
 
-  <script
-  src="https://code.jquery.com/jquery-3.2.1.min.js"
-  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-  crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>  
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+    <title>Sova Product Classifier</title>
+    <style type="text/css">
+        .btn{
+            background-color: #2fb773;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="light-blue lighten-1" role="navigation" style="background-color: #29385C !important;">
+    </nav>
+    <div class="section no-pad-bot" id="index-banner">
+        <div class="container">
+            <br><br>
+            <h1 class="header center" style="color: #1e2c4c">Sova Product Classifier</h1>
+            <div class="row center">
+                <h5 class="header col s12 light">Find out if your product is healthy with just a click</h5>
+            </div>
+            <br><br>
+        </div>
+    </div>
+    <div class="container">
+        <div class="section">
+            
+            <div>
+                <div class="col s12 m3">
+                    <h3>
+                        <% if (typeof nutrientMaps != 'undefined') { %>
+                            <% for (var prop in nutrientMaps) {
+                            if (Object.prototype.hasOwnProperty.call(nutrientMaps, prop)) { %>
+                               <%- prop %> : <%- nutrientMaps[prop] %><br>
+                                <%   }
+                            } %>
+                        <% } %>
+
+                        <%= typeof msg != 'undefined' ? msg : '' %>
+                    </h3>
+                </div>
+                <div class="col s12 m3">
+                    <h3 style="color: #30b874">
+                        <% if (typeof recommendationStatus != 'undefined') { %>
+                        Recommended : <%- JSON.stringify(recommendationStatus) -%>
+                        <% } %>
+                        
+                    </h3>
+                </div>
+            </div>
+            <!--   Icon Section   -->
+            <div class="row">
+                <div class="col s12 m3">
+                </div>
+                <div class="col s12 m6 center">
+                    <video id="player" controls autoplay width=100% height=auto></video>
+                    <canvas id="snapshot" width="1000" height="1000" style="width:100%; height:100%; display: none;"></canvas>
+                    <button type="submit" class="btn center" id="capture">Capture</button>
+                </div>
+                <div class="col s12 m3">
+                </div>
+            </div>
+        </div>
+        <br><br>
+        
+        <div class="section">
+            <div class="row">
+                <h5 class="header col s12 light center">Or upload an image</h5>
+            </div>
+            <div class="row">
+                <div class="col s12 m3">
+                </div>
+                <div class="col s12 m6 center">
+                    <form action="/upload" method="POST" enctype="multipart/form-data">
+                        <input name="myImage" type="file" id="myImage" accept="image/*">
+                        <br><br>
+                        <button type="submit" class="btn-large waves-effect waves-light" style="background-color: #29385c;">Submit</button>
+                    </form>
+                </div>
+                <div class="col s12 m3">
+                </div>
+            </div>
+        </div>
+        <br>
+        <br>
+        
+    </div>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+    <script type="text/javascript">
+    var player = document.getElementById('player');
+    var snapshotCanvas = document.getElementById('snapshot');
+    var captureButton = document.getElementById('capture');
+
+    var handleSuccess = function(stream) {
+        // Attach the video stream to the video element and autoplay.
+        player.srcObject = stream;
+    };
+
+    captureButton.addEventListener('click', async function() {
+        $('#player').hide();
+        $('#snapshot').show();
+        var context = snapshot.getContext('2d');
+        // Draw the video frame to the canvas.
+        context.drawImage(player, 0, 0, snapshotCanvas.width,
+            snapshotCanvas.height);
+        console.log(context.canvas.toDataURL());
+        const blob = await (await fetch(context.canvas.toDataURL())).blob();
+        const file = new File([blob], 'fileName.jpg', { type: "image/jpeg", lastModified: new Date() });
+
+        let container = new DataTransfer();
+        container.items.add(file);
+        document.getElementById('myImage').files = container.files;
+    });
+
+    navigator.mediaDevices.getUserMedia({ video: true })
+        .then(handleSuccess);
+    </script>
 </body>
+
 </html>

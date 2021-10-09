@@ -7,6 +7,9 @@ const config = {
     apiVersion: "2018-06-27",
     region: "ap-south-1",
 };
+
+console.log("text ex")
+console.log(process.env.JAWS_SECRET_ACCESS_KEY)
 const client = new AWS.Textract(config);
  const textExtractionController = async (fileContent) => {
     console.log("request for text extraction received");
